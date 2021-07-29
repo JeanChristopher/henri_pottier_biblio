@@ -1,15 +1,19 @@
+/**
+ * @file a file for the basket component
+ * @author Jean Christopher AMANY
+ * @license GNU
+ * @copyright Copyright (c) 2021; PUBLICIS SAPIENT; J.C. Amany
+ */
+
 import React, { Component } from 'react';
 import Header from './HeaderComponent';
-import Home from './HomeComponent';
 import Menu from './MenuComponent';
-import ParcourDetail from './ParcourDetailComponent';
-import Contact from './ContactComponent';
-import About from './AboutComponent';
+import BookDetail from './BookDetailComponent';
+import Basket from './basketComponent'
 import Footer from './FooterComponent';
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 import {connect} from 'react-redux';
-import { addComment, fetchParcours, fetchComments, loginUser, logoutUser, registerUser } from '../redux/ActionCreators';
-import { actions } from 'react-redux-form';
+import { addBasket, fetchBooks} from '../redux/ActionCreators';
 
 /**
  * Map our redux store state that becomes available to our components in form of props
@@ -17,12 +21,9 @@ import { actions } from 'react-redux-form';
  */
 const mapStateToProps = state => {
   return{
-    parcours_s: state.parcours,
+    books_s: state.books,
     comments_s: state.comments,
-    promotions: state.promotions,
-    leaders: state.leaders,
-    authStatus_s : state.authStatus, 
-
+    basket_s: state.basket
   }
 }
 
@@ -33,15 +34,9 @@ const mapStateToProps = state => {
  */
 
 const mapDispatchToProps = (dispatch) => ({
-  addComment : (parcoursId, rating, author, comment) => dispatch(addComment(parcoursId, rating, author, comment)),
-  fetchParcours: () => {dispatch(fetchParcours())},
-  fetchComments: () => {dispatch(fetchComments())},
-  loginUser: (creds) => {dispatch(loginUser(creds))},
-  logoutUser: () => {dispatch(logoutUser())},
-  registerUser: (creds) => {dispatch(registerUser(creds))},
-  // feedback is the name of the form we want to reset
-  resetFeedbackForm: () => {dispatch(actions.reset('feedback'))}
-});
+  fetchBooks: () => {dispatch(fetchBooks())},
+  addBasket: (bookItem) => {dispatch(addBasket(bookItem))},
+ });
 
 class Main extends Component {
   constructor(props){
@@ -52,23 +47,10 @@ class Main extends Component {
   // lifecycle method that is called when the component is rendered in the view
   componentDidMount(){
       // this is the good time to fetch any data that is required in the application
-      this.props.fetchParcours();
-      this.props.fetchComments();
-  }
+      this.props.fetchBooks();
+    }
 
   render(){
-    const HomePage = () =>  
-    {
-      return(
-        // we pass in the parcours, promotions, leaders where the attribute featured is true to be displayed on the homepage
-        // because we defined new properties in the reducerParcours in the reducer we now access to the upadted parcours via this property
-        <Home parcours_hp={this.props.parcours_s.reducerParcours.filter((parcour) => parcour.featured)[0]}
-              parcour_isLoading={this.props.parcours_s.isLoading}
-              parcour_ErrMess={this.props.parcours_s.errMess}
-              promotions_hp={this.props.promotions.filter((promotion) => promotion.featured === true)[0]}
-              leaders_hp={this.props.leaders.filter((leader) => leader.featured)[0]} />
-      );
-    }
     /**
      * 
      * @param {object} match A match object contains information about how a <Route path> matched the URL. match objects contain the following properties:
@@ -77,43 +59,35 @@ class Main extends Component {
                          path - (string) The path pattern used to match. Useful for building nested <Route>s
                          url - (string) The matched portion of the URL. Useful for building nested <Link>s
      */
-    const ParcoursWithId = ({match}) => {
+    const BooksWithId = ({match}) => {
         return(
-        // we chose the chosen parcour where the id of the selected parcours matches the id of the parcours on the match parameter property
+        // we chose the chosen book where the id of the selected books matches the id of the books on the match parameter property
         // the addcomment action is now available within our maincomponent as a prop
-        <ParcourDetail selectedPacour = {this.props.parcours_s.reducerParcours.filter((parcour) => parcour._id === match.params.parcourId)[0]}
-                       parcour_isLoading={this.props.parcours_s.isLoading}
-                       parcour_ErrMess={this.props.parcours_s.errMess}
-                       comments = {this.props.comments_s.reducerComments.filter((comment) => comment.dish === match.params.parcourId)}
-                       commentsErrMess={this.props.comments_s.errMess}
-                       addComment= {this.props.addComment}
+        <BookDetail selectedBook = {this.props.books_s.reducerBooks.filter((book) => book.isbn === match.params.bookId)[0]}
+                       book_isLoading={this.props.books_s.isLoading}
+                       book_ErrMess={this.props.books_s.errMess}
+                       addBasket = {this.props.addBasket}
         />
       );
     }
+
+
     
-  return (
-    
+  return (    
     <div>
-      <Header
-      authenticationStatus = {this.props.authStatus_s}
-      loginUser = {this.props.loginUser}
-      logoutUser = {this.props.logoutUser}
-      registerUser = {this.props.registerUser}
-      />
+      <Header/>
       <Switch>
-        {/* The route will lead us to the homepage component */}
-        <Route path="/home" component={HomePage} />
         {/* we use exact path because the same path will be used into other component */}
         {/* we use a functional component to pass props to the menu component */}
-        <Route exact path="/menu" component={() => <Menu parcours_p = {this.props.parcours_s.reducerParcours} 
-                                                         parcours_areLoading = {this.props.parcours_s.isLoading}
-                                                         parcours_ErrMess = {this.props.parcours_s.errMess}/>}/>
-        {/*The specified :parcoursId parameter becomes available as a parameter in an object */}
-        <Route path="/menu/:parcourId" component={ParcoursWithId}/>
-        <Route exact path="/contactus" component= {() => <Contact resetFeedbackForm={this.props.resetFeedbackForm} />}/>
-        <Route exact path="/aboutus" component={() => <About leaders_ap={this.props.leaders} />} />
-        {/* we redirect anything that does not match the routes specified to home */}
-        <Redirect to="/home"/>
+        <Route exact path="/menu" component={() => <Menu books_p = {this.props.books_s.reducerBooks} 
+                                                         books_areLoading = {this.props.books_s.isLoading}
+                                                         books_ErrMess = {this.props.books_s.errMess}/>}/>
+        {/*The specified :booksId parameter becomes available as a parameter in an object */}
+        <Route path="/menu/:bookId" component={BooksWithId}/>
+        <Route path="/menu/:bookId" component={BooksWithId}/>
+        <Route exact path="/basket" component={() => <Basket basket_p={this.props.basket_s.reducerBasket} price_p ={this.props.basket_s.price} />} />
+        {/* we redirect anything that does not match the routes specified to menu */}
+        <Redirect to="/menu"/>
       </Switch>
       <Footer />
     </div>

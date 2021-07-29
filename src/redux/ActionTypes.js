@@ -1,30 +1,17 @@
-// Parcours actions
-export const PARCOURS_LOADING = 'PARCOURS_LOADING';
-export const PARCOURS_FAILED = 'PARCOURS_FAILED';
-export const ADD_PARCOURS = 'ADD_PARCOURS';
+/**
+ * @file a file for the basket component
+ * @author Jean Christopher AMANY
+ * @license GNU
+ * @copyright Copyright (c) 2021; PUBLICIS SAPIENT; J.C. Amany
+ */
 
-// Comments actions
-export const ADD_COMMENT = 'ADD_COMMENT';
-export const ADD_COMMENTS = 'ADD_COMMENTS';
-export const COMMENTS_FAILED = 'COMMENTS_FAILED';
+// BOOKS actions
+export const BOOKS_LOADING = 'BOOKS_LOADING';
+export const BOOKS_FAILED = 'BOOKS_FAILED';
+export const ADD_BOOKS = 'ADD_BOOKS';
 
+// basket actions
 
-export const PROMOS_LOADING = 'PROMOS_LOADING';
-export const ADD_PROMOS = 'ADD_PROMOS';
-export const PROMOS_FAILED = 'PROMOS_FAILED';
-export const LEADERS_LOADING = 'LEADERS_LOADING';
-export const ADD_LEADERS = 'ADD_LEADERS';
-
-// Login actions
-export const LOGIN_REQUEST = 'LOGIN_REQUEST';
-export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
-export const LOGIN_FAILURE = 'LOGIN_FAILURE';
-
-// logout actions
-export const LOGOUT_REQUEST = 'LOGOUT_REQUEST';
-export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
-
-// sign up Actions
-export const SIGNUP_REQUEST = "SIGNUP_REQUEST" ;
-export const SIGNUP_SUCCESS = "SIGNUP_SUCCESS" ;
-export const SIGNUP_FAILIURE = "SIGNUP_FAILIURE" ;
+export const BASKET_LOADING = 'BASKET_LOADING';
+export const BASKET_FAILED = 'BASKET_FAILED';
+export const ADD_BASKET = 'ADD_BASKET';

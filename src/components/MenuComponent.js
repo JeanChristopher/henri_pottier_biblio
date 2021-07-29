@@ -1,48 +1,50 @@
+/**
+ * @file a file for the basket component
+ * @author Jean Christopher AMANY
+ * @license GNU
+ * @copyright Copyright (c) 2021; PUBLICIS SAPIENT; J.C. Amany
+ */
+
 import React from 'react';
-import { Card, CardImg, CardImgOverlay, CardTitle, Breadcrumb, BreadcrumbItem } from 'reactstrap';
+import { Card, CardImg, Breadcrumb, BreadcrumbItem } from 'reactstrap';
 import { Link } from 'react-router-dom' ;
 import { Loading } from './LoadingComponent';
-import { baseUrl } from '../shared/baseUrl'
 
     /**
      * 
-     * @param {parcour} params0 we receive the parcours_p from the menu component and pass it to parcour params as props 
-     * @param {onClick} params1 we receive the params from the onClick method in menu component as props  
-     * @returns { Card html element } all the parcours in the parcours files
+     * @param {object} book we receive the books_p from the menu component and pass it to book params as props 
+     * @param {function} onClick we receive the params from the onClick method in menu component as props  
+     * @returns { Card html element } all the books in the books files
      */
-    function RenderMenuItem({parcour}){
+    function RenderMenuItem({book}){
         return (
             <Card>
-                {/* We introduce a react router parameter so that when we click on a chosen parcours it link to the path of that particular parcour */}                
-                <Link to={`/menu/${parcour._id}`}>
-                    <CardImgOverlay>
-                        <CardTitle tag="h4"> {parcour.name} </CardTitle>
-                    </CardImgOverlay>
-                    <CardImg width="100%" src={baseUrl + parcour.image} alt={parcour.name}></CardImg>
+                {/* We introduce a react router parameter so that when we click on a chosen books it link to the path of that particular book */}                
+                <Link to={`/menu/${book.isbn}`}>
+                    <CardImg width="100%" src={book.cover} alt={book.title}></CardImg>
                     
                 </Link>
             </Card>
         );
     }
-
     /**
      * 
-     * @param {properties of the menu component that we receive from Main component} props
-     * @returns {all the parcours_p items: }
+     * @param {object} props properties of the menu component that we receive from Main component
+     * @returns {card} all the books_p items that is fetched from the API
      */
 
     const Menu = (props) => {
-        const menu = props.parcours_p.map((parcour) => {
+        const menu = props.books_p.map((book) => {
             return (
                 // key is a special parameters needeed when we have to display a list of items
-                <div key= {parcour._id} className="col-12 col-md-5 m-1">
+                <div key= {book._id} className="col-12 col-md-5 m-1">
                     {/* We pass the props parameters to the render function */}
-                    <RenderMenuItem parcour={parcour}/>
+                    <RenderMenuItem book={book}/>
                 </div>
             );
         });
-        
-        if (props.parcours_areLoading){
+
+        if (props.books_areLoading){
             return(
                 <div className="container">
                     <div className="row">
@@ -52,11 +54,11 @@ import { baseUrl } from '../shared/baseUrl'
             );
         }
 
-    else if (props.parcours_ErrMess){
+    else if (props.books_ErrMess){
         return(
             <div className="container">
                 <div className="row">
-                    <h4>{props.parcours_ErrMess}</h4>
+                    <h4>{props.books_ErrMess}</h4>
                 </div>                
             </div>
         );
