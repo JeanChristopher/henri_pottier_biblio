@@ -22,7 +22,8 @@ function RenderBook({selectedBook, addBasket}) {
         <Media tag="li">
             <Media left middle>
                 <Media object src={selectedBook.cover} alt={selectedBook.title} />
-            </Media>
+                <p><strong>{`prix : ${selectedBook.price} $`}</strong></p>
+            </Media>            
             <Media body className="ml-5">
                 <Media heading>{selectedBook.title}</Media>
                 {selectedBook.synopsis.map((element,index) => {
@@ -82,6 +83,7 @@ const BookDetail = (props) => {
                     <Media list>
                         <RenderBook selectedBook= {props.selectedBook} addBasket={props.addBasket} />
                     </Media>
+                    <p></p>
                 </div>
             </div>                                           
         );

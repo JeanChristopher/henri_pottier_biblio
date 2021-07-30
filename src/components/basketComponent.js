@@ -6,10 +6,10 @@
  */
 
 import React from 'react';
-import { Card, CardBody, CardImg, CardText, CardTitle, CardImgOverlay, Breadcrumb, BreadcrumbItem, Button } from 'reactstrap';
+import { Card, CardImg, Breadcrumb, BreadcrumbItem} from 'reactstrap';
+
 import { Link } from 'react-router-dom';
-import { baseUrl } from '../shared/baseUrl';
-import { Loading } from './LoadingComponent';
+
 
 /**
  * Renders 
@@ -38,7 +38,7 @@ const Basket = (props) => {
         const basketItems = props.basket_p.map((book_payer) => {
             return (
                 // key is a special parameters needeed when we have to display a list of items
-                <div key= {book_payer.isbn} className="col-12 col-md-5 m-1">
+                <div key= {book_payer.isbn} className="col-12 col-md-2 m-1">
                     <RenderMenuItem book={book_payer}/>
                 </div>
             );
@@ -55,6 +55,11 @@ const Basket = (props) => {
                         <h3>Mon panier</h3>
                         <hr />
                     </div>
+                </div>
+                <div className="row">
+                    <strong>
+                    {`Prix total : ${props.price_p}`}  
+                    </strong>                              
                 </div>
                 <div className="row">
                     {basketItems}            
