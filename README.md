@@ -13,7 +13,7 @@ cd henri_pottier_biblio
 
 ### `Node modules' installation`
 
-yarn install
+yarn install \
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
